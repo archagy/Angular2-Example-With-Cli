@@ -1,17 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-
+import {ROUTER_DIRECTIVES} from '@angular/router'
+import {IProduct} from '../products'
+import {ProductsService} from '../products.service'
+import {StarComponent} from '../../shared/star.component'
 @Component({
-  moduleId: module.id,
-  selector: 'app-products-list',
-  templateUrl: 'products-list.component.html',
-  styleUrls: ['products-list.component.css']
+	selector: 'app-products-list',
+	templateUrl: '/app/products/products-list/products-list.component.html',
+	styleUrls: ['/app/products/products-list/products-list.component.css'],
+	directives: [StarComponent,ROUTER_DIRECTIVES],
+	providers: [ProductsService]
 })
 export class ProductsListComponent implements OnInit {
 	pageTitle: string = "Product List";
+	imageWidth: number = 50
+	imageMargin: number = 2
+	showImage: boolean = false
+	listFilter: string
+	errorMessage: string
+	products: IProduct[] 
 	
-  constructor() { }
+ constructor(private _productService: ProductsService){}
 
-  ngOnInit() {
-  }
+  ngOnInit() : void   {
+  	this._productService.getProducts()
+		.subscribe(
+			products => this.products = products,
+			error 	 => this.errorMessage = <any>error)
+	}
 
 }

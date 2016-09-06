@@ -20,12 +20,17 @@ export class ProductsListComponent implements OnInit {
 	products: IProduct[] 
 	
  constructor(private _productService: ProductsService){}
-
+ toggleImage(): void {
+		this.showImage = !this.showImage
+	}
   ngOnInit() : void   {
   	this._productService.getProducts()
 		.subscribe(
 			products => this.products = products,
 			error 	 => this.errorMessage = <any>error)
 	}
+	  onRatingClicked(message: string): void {
+        this.pageTitle = "Product List " + message ;
+    }
 
 }
